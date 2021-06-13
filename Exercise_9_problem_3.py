@@ -71,6 +71,12 @@ print(movements["geometry"].head())
 # - Calculate the lenghts of the lines into a new column called ``distance`` in ``movements`` GeoDataFrame.
 
 # YOUR CODE HERE 5 to calculate distance
+def cal_distance(x):
+  if x['geometry'] is None:
+    return None
+  else:
+    return x['geometry'].length
+    movements['distance']=movements.apply(cal_distance,axis=1)
 
 # CODE FOR TESTING YOUR SOLUTION
 
@@ -85,11 +91,13 @@ movements.head()
 #  - What was the maximum distance travelled in meters?
 
 # YOUR CODE HERE 6 to find max, min,mean of the distance.
-
+print((movement['distance']).mean)
+print(max(movements['distance'].dropna()))
+print(min(movements['distance']))
 # - Finally, save the movements of into a Shapefile called ``some_movements.shp``
 
 # YOUR CODE HERE 7 to save as Shapefile
-
+fp="some_movements.shp"
 # CODE FOR TESTING YOUR SOLUTION
 
 import os
