@@ -10,12 +10,13 @@
 import geopandas as gpd
 from pyproj import CRS
 data=None
+data = gpd.read_file('Kruger_posts.shp')
 
 # - Check the crs of the input data. If this information is missing, set it as epsg:4326 (WGS84).
 # - Reproject the data from WGS84 to `EPSG:32735` -projection which stands for UTM Zone 35S (UTM zone for South Africa) to transform the data into metric system. (don't create a new variable, update the existing variable `data`!)"
 
 # YOUR CODE HERE 2 to set crs
-
+data=data.to_crs(epsg=32735)
 # CODE FOR TESTING YOUR SOLUTION
 
 # Check the data
@@ -31,6 +32,7 @@ print(data.crs)
 
 #  YOUR CODE HERE 3 to group 
 grouped=None
+grouped = data.groupby('userid')
 
 # CODE FOR TESTING YOUR SOLUTION
 
@@ -45,6 +47,17 @@ assert len(grouped.groups) == data["userid"].nunique(), "Number of groups should
 import pandas as pd
 from shapely.geometry import LineString, Point
 movements=None
+movements = gpd.GeoDataFrame(colums=['userid','geometry'])
+for key,group in grouped:
+  group = group.sort_values('timestamp')
+  if len(group['geometry'])>=2:
+    line=(LineString(list(group['geometry'])))
+  else:
+      line=None
+    movements.at['count','userid'] = key
+    movements.at['count','geometry']=line
+movements.crs=CRS.from_epsg(32735)
+
 # CODE FOR TESTING YOUR SOLUTION
 
 #Check the result

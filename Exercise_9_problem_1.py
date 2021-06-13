@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # ## Problem 1: Create Polygon from lists of coordinates
-# 
+#
 import os
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -27,12 +27,19 @@ latitudes = [63.748023986816406, 62.90789794921875, 60.511383056640625, 60.44499
 
 
 # Create a list of coordinate pairs
-# YOUR CODE HERE 1 
+# YOUR CODE HERE 1
 coordpairs=None
+coordpairs = []
+for i in range(len(longitudes)):
+  coordpairs.append([longitudes[i], latitudes[i]])
+
+
 
 # Create a shapely Polygon using the 'coordpairs' -list
-# YOUR CODE HERE 2 
+# YOUR CODE HERE 2
 poly = None
+
+poly = Polygon(coordpairs)
 
 # CODE FOR TESTING YOUR SOLUTION
 
@@ -49,6 +56,9 @@ print(poly.geom_type)
 # Create an empty GeoDataFrame
 geo = None
 # YOUR CODE HERE 3
+geo = gpd.GeoDataFrame()
+geo = gpd.GeoDataFrame(index = [0], columns = ['geometry'])
+geo['geometry'] = poly
 
 # CODE FOR TESTING YOUR SOLUTION
 
@@ -67,14 +77,20 @@ print(len(geo))
 # Plot the polygon. What shape is it :) ?
 # YOUR CODE HERE 4
 
-# What can you see on the map? :) 
+geo.plot()
+#plt.show()
 
-# - save the GeoDataFrame into a Shapefile called `'polygon.shp'`. 
+# What can you see on the map? :)
+
+# It looks like
+
+# - save the GeoDataFrame into a Shapefile called `'polygon.shp'`.
 
 # Save the GeoDataFrame into a new Shapefile called 'polygon.shp'.
 fp = 'polygon.shp'
 
 # YOUR CODE HERE 5
+geo.to_file(fp)
 
 # CODE FOR TESTING YOUR SOLUTION
 
@@ -96,4 +112,3 @@ def func3():
 
 def func4():
     return geo
-
